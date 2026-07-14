@@ -1,34 +1,32 @@
 let pyodide;
 
-async function boot(){
-
+async function init() {
     pyodide = await loadPyodide({
-        indexURL:"pyodide/"
+        indexURL: "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/"
     });
 
-    document.getElementById("output").textContent =
-        "PyConsole Ready\n";
-
-}
-
-boot();
-
-document.getElementById("run").onclick = async()=>{
-
-    let code=document.getElementById("editor").value;
-
-    try{
-
-        let result=await pyodide.runPythonAsync(code);
-
-        if(result!==undefined){
-            output.textContent+=String(result)+"\n";
+    pyodide.setStdout({
+        batched: text => {
+            document.getElementById("output").textContent += text + "\n";
         }
+    });
 
-    }catch(e){
-
-        output.textContent+=e+"\n";
-
-    }
-
+    document.getElementById("output").textContent = "PyConsole Ready\n";
 }
+
+init();
+
+document.getElementById("run").onclick = async () => {
+    const output = document.getElementById("output");
+    const code = document.getElementById("code").value;
+
+    try {
+        const result = await pyodide.runPythonAsync(code);
+
+        if (result !== undefined) {
+            output.textContent += result + "\n";
+        }
+    } catch (err) {
+        output.textContent += "Error: " + err + "\n";
+    }
+};
