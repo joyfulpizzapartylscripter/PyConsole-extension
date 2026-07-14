@@ -2,11 +2,7 @@
   "manifest_version": 3,
   "name": "PyConsole",
   "version": "1.0",
+  "description": "Python console in Chrome DevTools",
   "devtools_page": "devtools.html",
-  "host_permissions": [
-    "https://cdn.jsdelivr.net/*"
-  ],
-  "content_security_policy": {
-    "extension_pages": "script-src 'self' https://cdn.jsdelivr.net; object-src 'self';"
-  }
+  "permissions": []
 }
